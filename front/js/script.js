@@ -11,7 +11,7 @@ function getArticles() {
       return res.json();
     })
     .catch((error) => {
-      let items = document.querySelector("items");
+      let items = document.querySelector(".items");
       items.innerHTML =
         "Nous n'avons pas réussi à afficher nos canapés.";
     })

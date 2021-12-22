@@ -197,16 +197,15 @@ function form(){
             const send = {
                 method: "POST",
                 body: JSON.stringify(command),
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", 
+                'Access-Control-Allow-Origin' : '*' },
             };
 
-            let confirmation = document.querySelector("#order").innerText;
-            confirmation = confirmation.split(" :");
 
             fetch("http://localhost:3000/api/products/order", send)
              .then((response) => response.json())
              .then((data) => {
-               console.log(data)
+               console.log(data);
                localStorage.setItem("orderId", data.orderId);
 
                document.location.href = "confirmation.html";
