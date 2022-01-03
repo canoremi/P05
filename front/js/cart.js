@@ -10,9 +10,7 @@ function main() {
     deleteKanap();
     removeNumberOfKanap();
     totalInBasket ();
-    validEmail();
-    validlastName ();
-    validName ();
+    validForm();
 }
 
 function fillToCart(){
@@ -155,18 +153,26 @@ function totalInBasket(){
 }
 
 
-//ajout d'une regex à l'input nom
+//ajout d'une regex aux input
+function validForm(){
+    let form = document.querySelector(".cart__order__form");
 
-function validName (){
-    let formName = document.querySelector(".cart__order__form");
-
+	let regexMail = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    let regexNickname = new RegExp(/^[a-z ,.'-]+$/i);
     let regexName = new RegExp (/^[a-z ,.'-]+$/i);
 
-    formName.firstName.addEventListener('change', function(){
+    form.lastName.addEventListener('change', function(){
+        validlastName(this);
+    });
+
+    form.email.addEventListener('change', function() {
+        validEmail(this);
+    });
+
+	form.firstName.addEventListener('change', function(){
         validName (this);
     });
 
-    //validation du nom
     const validName = function(inputfirstName){
         let firstNameErrorMsg = inputfirstName.nextElementSibling;
 
@@ -177,18 +183,7 @@ function validName (){
             location.reload();
         }
     };
-}
 
-function validlastName (){
-    let formnickName = document.querySelector(".cart__order__form");
-
-    let regexNickname = new RegExp(/^[a-z ,.'-]+$/i);
-
-
-    formnickName.lastName.addEventListener('change', function(){
-        validlastName(this);
-    });
-    //validation du prénom
     const validlastName = function(inputLastName){
         let lastNameErrorMsg = inputLastName.nextElementSibling;
 
@@ -199,18 +194,6 @@ function validlastName (){
             location.reload();
         }
     };
-}
-
-//ajout d'une regex à l'input mail
-function validEmail(){
-    let form = document.querySelector(".cart__order__form");
-
-	let regexMail = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-    
-    form.email.addEventListener('change', function() {
-        validEmail(this);
-    });
-	
 
     //validation de l'email
     const validEmail = function(inputEmail) {
