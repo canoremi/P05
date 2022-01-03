@@ -11,7 +11,8 @@ function main() {
     removeNumberOfKanap();
     totalInBasket ();
     validEmail();
-
+    validlastName ();
+    validName ();
 }
 
 function fillToCart(){
@@ -152,12 +153,76 @@ function totalInBasket(){
     let KanapTotalPrice = document.getElementById('totalPrice');
     KanapTotalPrice.innerHTML = priceFinal;
 }
-  
+
+
+//ajout d'une regex à l'input nom
+
+function validName (){
+    let formName = document.querySelector(".cart__order__form");
+
+    let regexName = new RegExp (/^[a-z ,.'-]+$/i);
+
+    formName.firstName.addEventListener('change', function(){
+        validName (this);
+    });
+
+    //validation du nom
+    const validName = function(inputfirstName){
+        let firstNameErrorMsg = inputfirstName.nextElementSibling;
+
+        if (regexName.test(inputfirstName.value)){
+            firstNameErrorMsg.innerHTML = '';
+        } else {
+            firstNameErrorMsg.innerHTML = 'Veuillez reneigner un nom valide.';
+            location.reload();
+        }
+    };
+}
+
+function validlastName (){
+    let formnickName = document.querySelector(".cart__order__form");
+
+    let regexNickname = new RegExp(/^[a-z ,.'-]+$/i);
+
+
+    formnickName.lastName.addEventListener('change', function(){
+        validlastName(this);
+    });
+    //validation du prénom
+    const validlastName = function(inputLastName){
+        let lastNameErrorMsg = inputLastName.nextElementSibling;
+
+        if (regexNickname.test(inputLastName.value)){
+            lastNameErrorMsg.innerHTML = '';
+        }else{
+            lastNameErrorMsg.innerHTML = 'Veuillez renseigner un prénom valide.';
+            location.reload();
+        }
+    };
+}
 
 //ajout d'une regex à l'input mail
 function validEmail(){
+    let form = document.querySelector(".cart__order__form");
+
 	let regexMail = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-	return regexMail.test(document.getElementById("email").value);
+    
+    form.email.addEventListener('change', function() {
+        validEmail(this);
+    });
+	
+
+    //validation de l'email
+    const validEmail = function(inputEmail) {
+        let emailErrorMsg = inputEmail.nextElementSibling;
+
+        if (regexMail.test(inputEmail.value)) {
+            emailErrorMsg.innerHTML = '';
+        } else {
+            emailErrorMsg.innerHTML = 'Veuillez renseigner une adresse mail valide.';
+            location.reload();
+        }
+    };
 }
 //on récupère les inputs du formulaire
 function form(){
@@ -168,20 +233,26 @@ function form(){
     let inputCity = document.querySelector("#city");
     let inputMail = document.querySelector("#email");
     let erreur = document.querySelector(".emailErrorMsg");
+
+    
     
     submit.addEventListener("click",(e) => {
+        e.preventDefault();
+        
         if (
             !inputfirstName.value ||
             !inputLastName.value ||
             !inputAdress.value ||
             !inputCity.value ||
             !inputMail.value
-        ) {
-            erreur.innerHTML= "Vous devez renseigner tous les champs du formulaire !";
-            e.preventDefault();
-        } else {
+        ) {erreur.innerHTML= "Vous devez renseigner tous les champs du formulaire !";
+         }
+        else {
             let productsadded = [];
-            productsadded.push(CPLS);
+            for (let i =0; i<CPLS.length;i++){
+                productsadded.push(CPLS[i]._id);
+            }
+        
 
             const command = {
                 contact: {
@@ -198,7 +269,7 @@ function form(){
                 method: "POST",
                 body: JSON.stringify(command),
                 headers: { "Content-Type": "application/json", 
-                'Access-Control-Allow-Origin' : '*' },
+               },
             };
 
 
@@ -210,6 +281,9 @@ function form(){
 
                document.location.href = "confirmation.html";
             })
+             .catch((err) => {
+                alert ("Un problème a été detecté avec notre serveur, veuillez réessayer plus tard : " + err.message);
+            });
         }
     });
 }
