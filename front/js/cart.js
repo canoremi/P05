@@ -162,7 +162,7 @@ function validForm(){
     let regexName = new RegExp (/^[a-z ,.'-]+$/i);
 
     form.lastName.addEventListener('change', function(){
-        validlastName(this);
+        validLastName(this);
     });
 
     form.email.addEventListener('change', function() {
@@ -173,6 +173,7 @@ function validForm(){
         validName (this);
     });
 
+    // validation du prénom
     const validName = function(inputfirstName){
         let firstNameErrorMsg = inputfirstName.nextElementSibling;
 
@@ -183,20 +184,21 @@ function validForm(){
             location.reload();
         }
     };
-
-    const validlastName = function(inputLastName){
-        let lastNameErrorMsg = inputLastName.nextElementSibling;
+    
+    //validation du nom
+    const validLastName = function(inputLastName){
+        let LastNameErrorMsg = inputLastName.nextElementSibling;
 
         if (regexNickname.test(inputLastName.value)){
-            lastNameErrorMsg.innerHTML = '';
+            LastNameErrorMsg.innerHTML = '';
         }else{
-            lastNameErrorMsg.innerHTML = 'Veuillez renseigner un prénom valide.';
+            LastNameErrorMsg.innerHTML = 'Veuillez renseigner un prénom valide.';
             location.reload();
         }
     };
 
     //validation de l'email
-    const validEmail = function(inputEmail) {
+    function validEmail(inputEmail) {
         let emailErrorMsg = inputEmail.nextElementSibling;
 
         if (regexMail.test(inputEmail.value)) {
@@ -205,7 +207,7 @@ function validForm(){
             emailErrorMsg.innerHTML = 'Veuillez renseigner une adresse mail valide.';
             location.reload();
         }
-    };
+    }
 }
 //on récupère les inputs du formulaire
 function form(){
@@ -215,7 +217,7 @@ function form(){
     let inputAdress = document.querySelector("#address");
     let inputCity = document.querySelector("#city");
     let inputMail = document.querySelector("#email");
-    let erreur = document.querySelector(".emailErrorMsg");
+
 
     
     

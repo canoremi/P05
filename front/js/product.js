@@ -55,7 +55,7 @@ function addToCard() {
   const addWithBtn = document.querySelector("#addToCart");
 
   addWithBtn.addEventListener("click", () => {
-    if (quantityOfKanap.value > 0 && quantityOfKanap.value <=100){
+      if (quantityOfKanap.value > 0 && quantityOfKanap.value <=100 && quantityOfKanap.value !=0){
 
       let choiceOfColor = chosenColor.value;
       let choiceOfQuantity = quantityOfKanap.value;
@@ -77,18 +77,26 @@ function addToCard() {
       const messageConfirmation =() =>{
         if(window.confirm(`Votre article est ajouté au panier appuyez sur "commander" ou revenir à l'accueil`)){
             window.location.href ="cart.html";
-        }else{
-          window.location.href = "index.html";
-          console.log(messageConfirmation);
         }
       }
 
-    if (CPLS){
-      CPLS.push(productAdd);
-      localStorage.setItem("products" , JSON.stringify(CPLS));
-      console.log(localStorage.getItem("products"));
-      messageConfirmation();
-      
+    if (CPLS) {
+      const alreadyInBasket = CPLS.find(
+        (el) => el._id === id && el.colorKanap === choiceOfColor);
+        //Si le produit commandé est déjà dans le panier
+        if (alreadyInBasket) {
+            let newQuantity =
+            parseInt(productAdd.quantity) + parseInt(alreadyInBasket.quantity);
+            alreadyInBasket.quantity = newQuantity;
+            localStorage.setItem("products", JSON.stringify(CPLS));
+            messageConfirmation();
+        //Si le produit commandé n'est pas dans le panier
+        } else {
+            CPLS.push(productAdd);
+            localStorage.setItem("products", JSON.stringify(CPLS));
+            messageConfirmation();
+        }
+
     }else {
       CPLS = [];
       CPLS.push(productAdd);
